@@ -172,6 +172,10 @@ body {
   outline: none;
 }
 
+[role="tabpanel"]:focus-within {
+  border: 2px solid hsl(240, 6%, 25%)
+}
+
 [role="tabpanel"].is-hidden {
   display: none;
 }
