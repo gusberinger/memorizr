@@ -165,6 +165,7 @@ body {
 [role="tabpanel"] > textarea {
   height: 80vh;
   width: 100%;
+  resize: none;
 }
 
 [role="tabpanel"] > textarea:focus {
