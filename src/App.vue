@@ -27,6 +27,7 @@ const settingsOpen = ref(false)
 const defaultSettings = ref({
   capitalize: false,
   removeCommas: false,
+  disableSpellCheck: false,
 })
 
 const settings = ref(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
@@ -86,7 +87,7 @@ watch([settings.value], () => {
       aria-labelledby="tab-1"
       :class="{ 'is-hidden': selectedTab !== 1 }"
     >
-      <textarea v-model="inputText"></textarea>
+      <textarea :spellcheck="!settings.disableSpellCheck" v-model="inputText"></textarea>
     </div>
     <div
       id="tabpanel-2"
@@ -95,7 +96,7 @@ watch([settings.value], () => {
       aria-labelledby="tab-2"
       :class="{ 'is-hidden': selectedTab !== 2 }"
     >
-      <textarea v-model="outputText" readonly></textarea>
+      <textarea :spellcheck="!settings.disableSpellCheck" v-model="outputText" readonly></textarea>
     </div>
     <dialog ref="dialogRef" class="bg-white py-8 px-8">
       <div class="flex flex-col items-center justify-center">
@@ -108,6 +109,10 @@ watch([settings.value], () => {
           <div class="flex flex-row gap-x-2">
             <input type="checkbox" id="capitalize" v-model="settings.removeCommas" />
             <label for="capitalize">Remove Commas</label>
+          </div>
+          <div class="flex flex-row gap-x-2">
+            <input type="checkbox" id="capitalize" v-model="settings.disableSpellCheck" />
+            <label for="capitalize">Disable Spell Check</label>
           </div>
 
         </div>
