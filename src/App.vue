@@ -196,6 +196,8 @@ body {
 dialog {
   @apply rounded-lg;
   @apply shadow-2xl;
+  position: absolute;
+  top: -50vh;
 }
 
 </style>
