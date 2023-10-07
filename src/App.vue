@@ -51,6 +51,14 @@ window.addEventListener("click", (e) => {
     settingsOpen.value = false
   }
 })
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") {
+    selectedTab.value = 1
+  } else if (e.key === "ArrowRight") {
+    selectedTab.value = 2
+  }
+})
 </script>
 
 <template>
