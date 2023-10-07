@@ -33,10 +33,8 @@ const defaultSettings = ref({
 const settings = ref(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
 
 const dialogRef = ref<HTMLDialogElement | null>(null)
-console.log(dialogRef.value)
 
 watch(settingsOpen, () => {
-  console.log(settingsOpen.value, dialogRef.value)
   if (settingsOpen.value) {
     dialogRef.value?.showModal()
   } else {
@@ -46,6 +44,12 @@ watch(settingsOpen, () => {
 
 watch([settings.value], () => {
   localStorage.setItem("settings", JSON.stringify(settings.value))
+})
+
+window.addEventListener("click", (e) => {
+  if (e.target === dialogRef.value) {
+    settingsOpen.value = false
+  }
 })
 </script>
 
@@ -98,25 +102,25 @@ watch([settings.value], () => {
     >
       <textarea :spellcheck="!settings.disableSpellCheck" v-model="outputText" readonly></textarea>
     </div>
-    <dialog ref="dialogRef" class="bg-white py-8 px-8">
-      <div class="flex flex-col items-center justify-center">
+    <dialog ref="dialogRef" class="">
+      <div class="flex flex-col items-center justify-center bg-white py-8 px-8">
         <h2 class="text-2xl font-bold">Settings</h2>
-        <div class="flex flex-col">
+        <div class="flex flex-col mt-2">
           <div class="flex flex-row gap-x-2">
             <input type="checkbox" id="capitalize" v-model="settings.capitalize" />
-            <label @click="settings.capitalize = !settings.capitalize" for="capitalize">Capitalize</label>
+            <label for="capitalize">Capitalize</label>
           </div>
           <div class="flex flex-row gap-x-2">
-            <input type="checkbox" id="capitalize" v-model="settings.removeCommas" />
-            <label for="capitalize">Remove Commas</label>
+            <input type="checkbox" id="alphachars" v-model="settings.removeCommas" />
+            <label for="alphachars">Remove Commas</label>
           </div>
           <div class="flex flex-row gap-x-2">
-            <input type="checkbox" id="capitalize" v-model="settings.disableSpellCheck" />
-            <label for="capitalize">Disable Spell Check</label>
+            <input type="checkbox" id="spellcheck" v-model="settings.disableSpellCheck" />
+            <label for="spellcheck">Disable Spell Check</label>
           </div>
 
         </div>
-        <button class="mt-4" @click="settingsOpen = false">Close</button>
+        <button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md" @click="settingsOpen = false">Close</button>
       </div>
     </dialog>
   </div>
@@ -188,4 +192,10 @@ body {
 [role="tabpanel"] p {
   margin: 0;
 }
+
+dialog {
+  @apply rounded-lg;
+  @apply shadow-2xl;
+}
+
 </style>
