@@ -172,7 +172,7 @@ body {
   outline: none;
 }
 
-[role="tabpanel"]:focus-within {
+#tabpanel-1:focus-within {
   border: 2px solid hsl(240, 6%, 25%)
 }
 
