@@ -99,7 +99,7 @@ window.addEventListener("keydown", (e) => {
       aria-labelledby="tab-1"
       :class="{ 'is-hidden': selectedTab !== 1 }"
     >
-      <textarea :spellcheck="!settings.disableSpellCheck" v-model="inputText"></textarea>
+      <textarea aria-label="The text the user inputs." :spellcheck="!settings.disableSpellCheck" v-model="inputText"></textarea>
     </div>
     <div
       id="tabpanel-2"
@@ -108,7 +108,7 @@ window.addEventListener("keydown", (e) => {
       aria-labelledby="tab-2"
       :class="{ 'is-hidden': selectedTab !== 2 }"
     >
-      <textarea :spellcheck="!settings.disableSpellCheck" v-model="outputText" readonly></textarea>
+      <textarea aria-label="The text the program outputs." :spellcheck="!settings.disableSpellCheck" v-model="outputText" readonly></textarea>
     </div>
     <dialog ref="dialogRef" class="">
       <div class="flex flex-col items-center justify-center bg-white py-8 px-8">
