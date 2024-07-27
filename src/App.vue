@@ -7,9 +7,7 @@ const inputText = ref(localStorage.getItem("inputText") || "")
 watch(inputText, () => {
 	localStorage.setItem("inputText", inputText.value)
 })
-// const outputText = computed(() => inputText.value)
 
-// output keeps only first letter of each word using regex
 const outputText = computed(() => {
 	let newText = inputText.value.replace(/(\w)\w*/g, "$1")
 	if (settings.value.capitalize) {
