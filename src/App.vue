@@ -2,15 +2,21 @@
 import { ref, computed, watch } from "vue"
 import { Cog8ToothIcon } from "@heroicons/vue/24/solid"
 
+type Settings = {
+	capitalize: boolean
+	removeCommas: boolean
+	disableSpellCheck: boolean
+}
+
 const selectedTab = ref(1)
 const inputText = ref(localStorage.getItem("inputText") || "")
 const settingsOpen = ref(false)
-const defaultSettings = ref({
+const defaultSettings = ref<Settings>({
 	capitalize: false,
 	removeCommas: false,
 	disableSpellCheck: false,
 })
-const settings = ref(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
+const settings = ref<Settings>(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
 const dialogRef = ref<HTMLDialogElement | null>(null)
 
 watch(inputText, () => {
