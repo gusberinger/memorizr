@@ -11,12 +11,12 @@ type Settings = {
 const selectedTab = ref(1)
 const inputText = ref(localStorage.getItem("inputText") || "")
 const settingsOpen = ref(false)
-const defaultSettings = ref<Settings>({
+const defaultSettings = {
 	capitalize: false,
 	removeCommas: false,
 	disableSpellCheck: false,
-})
-const settings = ref<Settings>(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
+} satisfies Settings
+const settings = ref<Settings>(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings)))
 const dialogRef = ref<HTMLDialogElement | null>(null)
 
 watch(inputText, () => {
