@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-  font-family: 'Inter', "Helvetica Neue", Arial, sans-serif;
-  background-color: theme("colors.slate.50");
+	font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+	background-color: theme("colors.slate.50");
 }
