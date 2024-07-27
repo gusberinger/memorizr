@@ -4,32 +4,18 @@ import { Cog8ToothIcon } from "@heroicons/vue/24/solid"
 
 const selectedTab = ref(1)
 const inputText = ref(localStorage.getItem("inputText") || "")
-watch(inputText, () => {
-	localStorage.setItem("inputText", inputText.value)
-})
-
-const outputText = computed(() => {
-	let newText = inputText.value.replace(/(\w)\w*/g, "$1")
-	if (settings.value.capitalize) {
-		newText = newText.toUpperCase()
-	}
-	if (settings.value.removeCommas) {
-		newText = newText.replace(/,/g, "")
-	}
-	return newText
-})
-
 const settingsOpen = ref(false)
-
 const defaultSettings = ref({
 	capitalize: false,
 	removeCommas: false,
 	disableSpellCheck: false,
 })
-
 const settings = ref(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings.value)))
-
 const dialogRef = ref<HTMLDialogElement | null>(null)
+
+watch(inputText, () => {
+	localStorage.setItem("inputText", inputText.value)
+})
 
 watch(settingsOpen, () => {
 	if (settingsOpen.value) {
@@ -55,6 +41,17 @@ window.addEventListener("keydown", (e) => {
 	} else if (e.key === "ArrowRight") {
 		selectedTab.value = 2
 	}
+})
+
+const outputText = computed(() => {
+	let newText = inputText.value.replace(/(\w)\w*/g, "$1")
+	if (settings.value.capitalize) {
+		newText = newText.toUpperCase()
+	}
+	if (settings.value.removeCommas) {
+		newText = newText.replace(/,/g, "")
+	}
+	return newText
 })
 </script>
 
