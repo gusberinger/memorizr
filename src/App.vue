@@ -4,8 +4,9 @@ import { Cog8ToothIcon } from "@heroicons/vue/24/solid"
 
 type Settings = {
 	capitalize: boolean
-	removeCommas: boolean
+	removeNonAlphaNumeric: boolean
 	disableSpellCheck: boolean
+	charsShown: number
 }
 
 const selectedTab = ref(1)
@@ -13,8 +14,9 @@ const inputText = ref(localStorage.getItem("inputText") || "")
 const settingsOpen = ref(false)
 const defaultSettings = {
 	capitalize: false,
-	removeCommas: false,
+	removeNonAlphaNumeric: true,
 	disableSpellCheck: false,
+	charsShown: 2
 } satisfies Settings
 const settings = ref<Settings>(JSON.parse(localStorage.getItem("settings") || JSON.stringify(defaultSettings)))
 const dialogRef = ref<HTMLDialogElement | null>(null)
@@ -50,12 +52,22 @@ window.addEventListener("keydown", (e) => {
 })
 
 const outputText = computed(() => {
-	let newText = inputText.value.replace(/(\w)\w*/g, "$1")
+	let newText = inputText.value.split("\n").map((line) => {
+		return line
+			.split(" ")
+			.map((word) => {
+				let nonAlpha = [...word].filter((char) => !char.match(/[a-zA-Z]/)).join("")
+				let alphaOnly = word.replace(/[^a-zA-Z]/g, "")
+				let newWorld = alphaOnly.slice(0, settings.value.charsShown)
+				if (!settings.value.removeNonAlphaNumeric) {
+					newWorld += nonAlpha
+				}
+				return newWorld
+			})
+			.join(" ")
+	}).join("\n")
 	if (settings.value.capitalize) {
 		newText = newText.toUpperCase()
-	}
-	if (settings.value.removeCommas) {
-		newText = newText.replace(/,/g, "")
 	}
 	return newText
 })
@@ -109,15 +121,19 @@ const outputText = computed(() => {
 				<div class="flex flex-col mt-2">
 					<div class="flex flex-row gap-x-2">
 						<input type="checkbox" id="capitalize" v-model="settings.capitalize" />
-						<label for="capitalize">Capitalize</label>
+						<label for="capitalize">Capitalize Everything</label>
 					</div>
 					<div class="flex flex-row gap-x-2">
-						<input type="checkbox" id="alphachars" v-model="settings.removeCommas" />
-						<label for="alphachars">Remove Commas</label>
+						<input type="checkbox" id="alphachars" v-model="settings.removeNonAlphaNumeric" />
+						<label for="alphachars">Show Only A-Z Characters </label>
 					</div>
 					<div class="flex flex-row gap-x-2">
 						<input type="checkbox" id="spellcheck" v-model="settings.disableSpellCheck" />
 						<label for="spellcheck">Disable Spell Check</label>
+					</div>
+					<div class="flex flex-row my-1 items-center gap-x-2">
+						<input class="rounded-md border-2 border-sky-400 py-1 px-2 w-12" type="number" id="charsShown" v-model="settings.charsShown" />
+						<label for="charsShown">Characters Shown</label>
 					</div>
 				</div>
 				<button class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md" @click="settingsOpen = false">Close</button>
